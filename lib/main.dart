@@ -8,6 +8,7 @@ import 'shared_preferences.dart';
 import 'share_textfile.dart';
 import 'takeimage.dart';
 import 'image.dart';
+import 'animation.dart';
 
 void main() => runApp(MyApp());
 
@@ -28,6 +29,7 @@ class MyApp extends StatelessWidget {
         'sharetext': (context) => ShareTextFile(),
         'image': (context) => ImagePickerPage(),
         'vip': (context) => anh(),
+        'animation': (context) => animated(),
       },
     );
   }

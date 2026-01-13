@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -13,10 +14,29 @@ class _anhState extends State<anh> {
   dynamic data;
   TextEditingController tan = TextEditingController();
   dynamic Name;
+  Timer? time;
+  bool isbig = false;
+
   @override
   void initState() {
     super.initState();
     load();
+    animate();
+  }
+
+  void animate() {
+    time = Timer.periodic(const Duration(seconds: 6), (time) {
+      if (mounted) {
+        setState(() {
+          isbig = !isbig;
+        });
+      }
+    });
+  }
+
+  void dispose() {
+    super.dispose();
+    time?.cancel();
   }
 
   load() async {
@@ -74,8 +94,57 @@ class _anhState extends State<anh> {
           Container(
             margin: EdgeInsets.only(top: 30),
             color: Colors.red.withOpacity(0.4),
+
             child: Column(
               children: [
+                AnimatedContainer(
+                  duration: const Duration(seconds: 6),
+                  curve: Curves.easeInOut,
+                  alignment: isbig ? Alignment.topLeft : Alignment.bottomRight,
+                  child: Container(
+                    width: 30,
+                    height: 30,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      gradient: LinearGradient(
+                        colors: [Colors.purple, Colors.blue, Colors.red],
+                      ),
+                    ),
+                  ),
+                ),
+
+                Container(
+                  width: 120,
+                  height: 120,
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [
+                        Colors.purple.withOpacity(0.2),
+                        Colors.blue.withOpacity(0.3),
+                        Colors.red.withOpacity(0.4),
+                      ],
+                    ),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: AnimatedContainer(
+                    duration: const Duration(seconds: 4),
+                    curve: Curves.bounceInOut,
+                    alignment: isbig
+                        ? Alignment.topLeft
+                        : Alignment.bottomRight,
+                    child: Container(
+                      width: 30,
+                      height: 30,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        gradient: LinearGradient(
+                          colors: [Colors.purple, Colors.blue, Colors.red],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+
                 Text(
                   'Tên đã lưu : $Name',
                   style: TextStyle(
