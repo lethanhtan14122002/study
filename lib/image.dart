@@ -103,6 +103,7 @@ class _anhState extends State<anh> {
                   alignment: isbig ? Alignment.topLeft : Alignment.bottomRight,
                   child: Container(
                     width: 30,
+
                     height: 30,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,

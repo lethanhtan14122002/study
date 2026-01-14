@@ -9,6 +9,7 @@ import 'share_textfile.dart';
 import 'takeimage.dart';
 import 'image.dart';
 import 'animation.dart';
+import 'animated_controller.dart';
 
 void main() => runApp(MyApp());
 
@@ -18,7 +19,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       theme: ThemeData(primarySwatch: Colors.purple),
       debugShowCheckedModeBanner: false,
-      initialRoute: 'vip',
+      initialRoute: 'acontroller',
       routes: {
         'nutbutton': (context) => NutButton(),
         'gridview': (context) => GridViewExample(),
@@ -29,7 +30,8 @@ class MyApp extends StatelessWidget {
         'sharetext': (context) => ShareTextFile(),
         'image': (context) => ImagePickerPage(),
         'vip': (context) => anh(),
-        'animation': (context) => animated(),
+        'animation': (context) => animeted(),
+        'acontroller': (context) => animatedcontroller(),
       },
     );
   }
