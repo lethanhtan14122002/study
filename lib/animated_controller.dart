@@ -1,70 +1,95 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 
-class animatedcontroller extends StatefulWidget {
+class AnimatedController extends StatefulWidget {
   @override
-  animateState createState() => animateState();
+  animatedState createState() => animatedState();
 }
 
-class animateState extends State<animatedcontroller>
+class animatedState extends State<AnimatedController>
     with SingleTickerProviderStateMixin {
-  late AnimationController _controller;
-  late Animation<double> animation;
-  bool isbig = false;
-  Timer? time;
+  late AnimationController controller;
+  late Animation<double> animated;
+  late Animation<double> sizeAnimation;
+  late Animation<Color?> colorAnimation;
 
+  @override
   void initState() {
     super.initState();
-    _controller = AnimationController(
-      vsync: this,
-      duration: const Duration(seconds: 1),
-    )..repeat(reverse: false);
-
-    animation = Tween<double>(
-      begin: 5,
-      end: 250,
-    ).animate(CurvedAnimation(parent: _controller, curve: Curves.linear));
+    load();
   }
 
   void load() {
-    time = Timer.periodic(const Duration(seconds: 1), (time) {
-      if (mounted) {
-        setState(() {
-          isbig = !isbig;
-        });
-      }
-    });
+    controller = AnimationController(
+      vsync: this,
+      duration: Duration(seconds: 5),
+    )..repeat(reverse: false);
+    animated = Tween<double>(
+      begin: 0,
+      end: 220,
+    ).animate(CurvedAnimation(parent: controller, curve: Curves.easeInOut));
+    sizeAnimation = Tween<double>(
+      begin: 0,
+      end: 50,
+    ).animate(CurvedAnimation(parent: controller, curve: Curves.easeInOut));
+    colorAnimation = ColorTween(
+      begin: Colors.green.withOpacity(0.3),
+      end: Colors.purple.withOpacity(0.7),
+    ).animate(CurvedAnimation(parent: controller, curve: Curves.easeInOut));
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+
+    controller.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: Colors.white,
       child: Stack(
-        children: <Widget>[
-          AnimatedBuilder(
-            animation: _controller,
-            builder: (context, child) {
-              return Positioned(
-                left: animation.value,
-                top: 50,
-                child: Container(
-                  width: isbig ? 200 : 100,
-                  height: isbig ? 200 : 100,
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [
-                        Colors.blue.withOpacity(0.5),
-                        Colors.yellow.withOpacity(0.5),
-                      ],
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
+        children: [
+          Positioned(
+            child: AnimatedBuilder(
+              animation: controller,
+              builder: (context, child) {
+                return Positioned(
+                  left: animated
+                      .value, // Điều chỉnh để di chuyển từ trái sang phải
+                  top: 200,
+
+                  child: Container(
+                    width: sizeAnimation
+                        .value, // Thay đổi kích thước theo animation
+                    height: sizeAnimation.value,
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [
+                          colorAnimation.value ??
+                              const Color.fromARGB(
+                                255,
+                                216,
+                                246,
+                                224,
+                              ).withOpacity(0.3),
+                          Colors.green.withOpacity(0.3), // Màu thứ 2
+                          const Color.fromARGB(
+                            255,
+                            86,
+                            10,
+                            186,
+                          ).withOpacity(0.3),
+                        ],
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                      ),
+                      borderRadius: BorderRadius.circular(50), // Giữ hình tròn
                     ),
-                    borderRadius: BorderRadius.circular(50),
                   ),
-                ),
-              );
-            },
+                );
+              },
+            ),
           ),
         ],
       ),

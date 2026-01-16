@@ -11,6 +11,8 @@ import 'image.dart';
 import 'animation.dart';
 import 'animated_controller.dart';
 
+import 'hieuung.dart';
+
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
@@ -19,7 +21,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       theme: ThemeData(primarySwatch: Colors.purple),
       debugShowCheckedModeBanner: false,
-      initialRoute: 'acontroller',
+      initialRoute: 'hieuung',
       routes: {
         'nutbutton': (context) => NutButton(),
         'gridview': (context) => GridViewExample(),
@@ -31,7 +33,8 @@ class MyApp extends StatelessWidget {
         'image': (context) => ImagePickerPage(),
         'vip': (context) => anh(),
         'animation': (context) => animeted(),
-        'acontroller': (context) => animatedcontroller(),
+        'acontroller': (context) => AnimatedController(),
+        'hieuung': (context) => hieuung(),
       },
     );
   }
