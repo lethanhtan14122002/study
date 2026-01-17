@@ -10,6 +10,7 @@ import 'takeimage.dart';
 import 'image.dart';
 import 'animation.dart';
 import 'animated_controller.dart';
+import 'ontap.dart';
 
 import 'hieuung.dart';
 
@@ -21,7 +22,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       theme: ThemeData(primarySwatch: Colors.purple),
       debugShowCheckedModeBanner: false,
-      initialRoute: 'hieuung',
+      initialRoute: 'ontap',
       routes: {
         'nutbutton': (context) => NutButton(),
         'gridview': (context) => GridViewExample(),
@@ -35,6 +36,7 @@ class MyApp extends StatelessWidget {
         'animation': (context) => animeted(),
         'acontroller': (context) => AnimatedController(),
         'hieuung': (context) => hieuung(),
+        'ontap': (context) => ontap(),
       },
     );
   }

@@ -8,76 +8,44 @@ class hieuung extends StatefulWidget {
 class hieuungState extends State<hieuung> with SingleTickerProviderStateMixin {
   late AnimationController controller;
   late Animation<double> animated;
-  late Animation<double> size;
-  late Animation<Color?> color;
 
-  @override
   void initState() {
     super.initState();
-    load();
+    controller = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 20),
+    )..repeat(reverse: false);
+    animated = Tween<double>(
+      begin: 0.0,
+      end: 1.0,
+    ).animate(CurvedAnimation(parent: controller, curve: Curves.easeInOut));
   }
 
   void dispose() {
     super.dispose();
-  }
-
-  void load() {
-    controller = AnimationController(
-      vsync: this,
-      duration: const Duration(seconds: 3),
-    )..repeat(reverse: false);
-    animated = Tween<double>(
-      begin: 0,
-      end: 220,
-    ).animate(CurvedAnimation(parent: controller, curve: Curves.easeInOut));
-    size = Tween<double>(
-      begin: 0,
-      end: 50,
-    ).animate(CurvedAnimation(parent: controller, curve: Curves.easeInOut));
-    color = ColorTween(
-      begin: Colors.green.withOpacity(0.5),
-      end: Colors.purple.withOpacity(1),
-    ).animate(CurvedAnimation(parent: controller, curve: Curves.easeInOut));
+    controller.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: Colors.white,
       child: Container(
-        width: 200,
-        height: 100,
-        color: const Color.fromARGB(255, 255, 255, 255),
-        child: Stack(
-          children: [
-            Positioned(
-              left: animated.value, // Di chuyển theo giá trị của animation
-              child: Container(
-                child: ElevatedButton(
-                  onPressed: () {},
-                  child: AnimatedBuilder(
-                    animation: controller,
-                    builder: (context, child) {
-                      return Container(
-                        width: size.value,
-                        height: size.value,
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            colors: [
-                              color.value?.withOpacity(0.5) ??
-                                  Colors.blue.withOpacity(0.8),
-                              color.value?.withOpacity(0.5) ??
-                                  Colors.blue.withOpacity(0.8),
-                            ],
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
-                          ),
-                          borderRadius: BorderRadius.circular(50),
-                        ),
-                      );
-                    },
-                  ),
-                ),
+        child: ListView(
+          children: <Widget>[
+            Container(
+              margin: EdgeInsets.only(top: 50),
+              alignment: Alignment.center,
+              width: 300,
+              height: 300,
+              child: AnimatedBuilder(
+                animation: controller,
+                builder: (context, child) {
+                  return Transform.translate(
+                    offset: Offset(controller.value * 200, 0),
+                    child: child,
+                  );
+                },
+                child: Image.asset('assets/love.jpg'),
               ),
             ),
           ],
