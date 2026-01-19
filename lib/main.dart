@@ -11,8 +11,10 @@ import 'image.dart';
 import 'animation.dart';
 import 'animated_controller.dart';
 import 'ontap.dart';
-
+import 'api.dart';
 import 'hieuung.dart';
+import 'api_no_key.dart';
+import 'ontapapi.dart';
 
 void main() => runApp(MyApp());
 
@@ -22,8 +24,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       theme: ThemeData(primarySwatch: Colors.purple),
       debugShowCheckedModeBanner: false,
-      initialRoute: 'ontap',
+      initialRoute: 'ontapapi',
       routes: {
+        'ontapapi': (context) => Ontapapi(),
         'nutbutton': (context) => NutButton(),
         'gridview': (context) => GridViewExample(),
         'cuonngang': (context) => singlechildscrollview(),
@@ -37,6 +40,8 @@ class MyApp extends StatelessWidget {
         'acontroller': (context) => AnimatedController(),
         'hieuung': (context) => hieuung(),
         'ontap': (context) => ontap(),
+        'api': (context) => WeatherScreen(),
+        'apino': (context) => TarotCardScreen(),
       },
     );
   }
