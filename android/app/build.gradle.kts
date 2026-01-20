@@ -3,7 +3,9 @@ plugins {
     id("kotlin-android")
     // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
     id("dev.flutter.flutter-gradle-plugin")
+    
 }
+apply(plugin = "com.google.gms.google-services")
 
 android {
     namespace = "com.example.thunail"
@@ -37,6 +39,14 @@ android {
             signingConfig = signingConfigs.getByName("debug")
         }
     }
+}
+dependencies {
+    implementation("com.google.firebase:firebase-analytics-ktx:20.1.0")
+    implementation("com.google.firebase:firebase-firestore-ktx:24.0.0")
+    implementation("com.google.firebase:firebase-storage-ktx:20.0.0")
+    implementation("com.google.firebase:firebase-database-ktx:20.0.5")
+    implementation("com.google.android.gms:play-services-auth:20.5.0")
+
 }
 
 flutter {

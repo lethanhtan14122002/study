@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "538919179822",
+    "project_id": "hocvui-cfa61",
+    "storage_bucket": "hocvui-cfa61.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:538919179822:android:b2153721eaabb5dff7b1bf",
+        "android_client_info": {
+          "package_name": "com.example.thunail"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBqHxAu0N8_FKaeM9wCLGMLa4SwIsHANSY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:538919179822:android:113d2ed9602ce345f7b1bf",
+        "android_client_info": {
+          "package_name": "com.vip.thunail"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBqHxAu0N8_FKaeM9wCLGMLa4SwIsHANSY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

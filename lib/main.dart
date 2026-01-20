@@ -1,4 +1,6 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+
 import 'nutbutton.dart';
 import 'gritView.dart';
 import 'cuonngang.dart';
@@ -15,8 +17,13 @@ import 'api.dart';
 import 'hieuung.dart';
 import 'api_no_key.dart';
 import 'ontapapi.dart';
+import 'firebase.dart';
 
-void main() => runApp(MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
   @override
@@ -24,7 +31,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       theme: ThemeData(primarySwatch: Colors.purple),
       debugShowCheckedModeBanner: false,
-      initialRoute: 'ontapapi',
+      initialRoute: 'firebase',
       routes: {
         'ontapapi': (context) => Ontapapi(),
         'nutbutton': (context) => NutButton(),
@@ -42,6 +49,7 @@ class MyApp extends StatelessWidget {
         'ontap': (context) => ontap(),
         'api': (context) => WeatherScreen(),
         'apino': (context) => TarotCardScreen(),
+        'firebase': (context) => FirebasePage(),
       },
     );
   }

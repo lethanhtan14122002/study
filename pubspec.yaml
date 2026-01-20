@@ -21,6 +21,11 @@ dependencies:
   shared_preferences: ^2.0.15
   image_picker: ^1.2.1
   http: ^1.6.0
+  firebase_core: ^2.16.1  # Firebase Core để khởi tạo Firebase
+  firebase_storage: ^11.0.0  # Firebase Storage để lưu trữ và tải ảnh
+  cloud_firestore: ^4.1.0  # Firestore để lưu trữ thông tin người dùng
+
+
 
 
 dev_dependencies:
