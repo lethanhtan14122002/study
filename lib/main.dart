@@ -18,6 +18,8 @@ import 'hieuung.dart';
 import 'api_no_key.dart';
 import 'ontapapi.dart';
 import 'firebase.dart';
+import 'listfirebase.dart';
+import 'addlistbase.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -31,8 +33,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       theme: ThemeData(primarySwatch: Colors.purple),
       debugShowCheckedModeBanner: false,
-      initialRoute: 'firebase',
+      initialRoute: 'addlist',
       routes: {
+        'addlist': (context) => addlist(),
         'ontapapi': (context) => Ontapapi(),
         'nutbutton': (context) => NutButton(),
         'gridview': (context) => GridViewExample(),
@@ -50,6 +53,7 @@ class MyApp extends StatelessWidget {
         'api': (context) => WeatherScreen(),
         'apino': (context) => TarotCardScreen(),
         'firebase': (context) => FirebasePage(),
+        'listbase': (context) => listfirebase(),
       },
     );
   }
