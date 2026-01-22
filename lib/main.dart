@@ -20,6 +20,8 @@ import 'ontapapi.dart';
 import 'firebase.dart';
 import 'listfirebase.dart';
 import 'addlistbase.dart';
+import 'add_update_clrea.dart';
+import 'table.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -33,8 +35,10 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       theme: ThemeData(primarySwatch: Colors.purple),
       debugShowCheckedModeBanner: false,
-      initialRoute: 'addlist',
+      initialRoute: 'them',
       routes: {
+        'them': (context) => them(),
+        'themxoasua': (context) => themxoasua(),
         'addlist': (context) => addlist(),
         'ontapapi': (context) => Ontapapi(),
         'nutbutton': (context) => NutButton(),
