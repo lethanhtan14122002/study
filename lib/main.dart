@@ -22,6 +22,7 @@ import 'listfirebase.dart';
 import 'addlistbase.dart';
 import 'add_update_clrea.dart';
 import 'table.dart';
+import 'random.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -35,8 +36,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       theme: ThemeData(primarySwatch: Colors.purple),
       debugShowCheckedModeBanner: false,
-      initialRoute: 'them',
+      initialRoute: 'random',
       routes: {
+        'random': (context) => Randomwidget(),
         'them': (context) => them(),
         'themxoasua': (context) => themxoasua(),
         'addlist': (context) => addlist(),

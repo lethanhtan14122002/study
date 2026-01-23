@@ -3,38 +3,26 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class them extends StatefulWidget {
   @override
-  themxoasuaState createState() => themxoasuaState();
+  randomState createState() => randomState();
 }
 
-class themxoasuaState extends State<them> {
-  TextEditingController controller = TextEditingController();
+class randomState extends State<them> {
   final FirebaseFirestore fire = FirebaseFirestore.instance;
+  TextEditingController controller = TextEditingController();
 
-  Future<QuerySnapshot> load() async {
+  Future<QuerySnapshot> getdata() async {
     return await fire.collection('add').get();
   }
 
-  Future<void> add(String tan) async {
-    try {
-      await fire.collection('add').add({
-        'tiltle': tan,
-        'time': FieldValue.serverTimestamp(),
-      });
-      setState(() {});
-    } catch (e) {
-      print('e : $e');
-    }
-  }
-
-  Future<void> update(String id, String newTitle) async {
+  Future<void> update(String id, String titel) async {
     try {
       await fire.collection('add').doc(id).update({
-        'tiltle': newTitle,
+        'tiltle': titel,
         'time': FieldValue.serverTimestamp(),
       });
       setState(() {});
     } catch (e) {
-      print('e : $e');
+      print('Lỗi: $e');
     }
   }
 
@@ -43,7 +31,7 @@ class themxoasuaState extends State<them> {
       await fire.collection('add').doc(id).delete();
       setState(() {});
     } catch (e) {
-      print('e : $e');
+      print('Lỗi: $e');
     }
   }
 
@@ -54,126 +42,147 @@ class themxoasuaState extends State<them> {
 
   @override
   void dispose() {
+    controller.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Add, Update, Delete')),
-      body: Column(
+      appBar: AppBar(title: Text('Firebase')),
+      body: ListView(
         children: [
           Container(
             width: double.infinity,
-            height: 400,
-            padding: EdgeInsets.all(16.0),
+            height:
+                400, // Đã thay đổi chiều cao để có không gian hiển thị tốt hơn
             child: FutureBuilder(
-              future: load(),
+              future: getdata(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return Center(child: CircularProgressIndicator());
                 }
                 if (snapshot.hasError) {
-                  return Center(child: Text('Error: ${snapshot.error}'));
+                  return Center(child: Text('Lỗi: ${snapshot.error}'));
                 }
                 if (!snapshot.hasData) {
-                  return Center(child: Text('No Data Available'));
+                  return Center(child: Text('Không có dữ liệu'));
                 }
 
-                var data = snapshot.data!.docs;
+                var data1 = snapshot.data!.docs;
+
                 return SingleChildScrollView(
-                  child: DataTable(
-                    columns: [
-                      DataColumn(label: Text('ID')),
-                      DataColumn(label: Text('Title')),
-                      DataColumn(label: Text('Actions')),
-                    ],
-                    rows: data.map<DataRow>((doc) {
-                      var base = doc.data() as Map<String, dynamic>;
-                      var id = doc.id;
-                      return DataRow(
-                        cells: [
-                          DataCell(Text(id)),
-                          DataCell(Text(base['tiltle'])),
-                          DataCell(
-                            Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                IconButton(
-                                  onPressed: () {
-                                    controller.text = base['tiltle'];
-                                    showDialog(
-                                      context: context,
-                                      builder: (context) {
-                                        return AlertDialog(
-                                          title: Text('Update Data'),
-                                          content: TextField(
-                                            controller: controller,
-                                            decoration: InputDecoration(
-                                              hintText: 'Write here',
-                                              labelText: 'Update Title',
-                                              border: OutlineInputBorder(),
-                                            ),
-                                          ),
-                                          actions: [
-                                            TextButton(
-                                              onPressed: () {
-                                                update(id, controller.text);
-                                                controller.clear();
-                                                Navigator.pop(context);
-                                              },
-                                              child: Center(
-                                                child: Text('Save'),
-                                              ),
-                                            ),
-                                            TextButton(
-                                              onPressed: () {
-                                                Navigator.pop(context);
-                                              },
-                                              child: Center(
-                                                child: Text('Cancel'),
-                                              ),
-                                            ),
-                                          ],
-                                        );
-                                      },
-                                    );
-                                  },
-                                  icon: Icon(Icons.edit),
-                                ),
-                                IconButton(
-                                  onPressed: () => delete(id),
-                                  icon: Icon(Icons.delete),
-                                ),
-                              ],
+                  scrollDirection: Axis.horizontal,
+                  child: Table(
+                    border: TableBorder.all(
+                      width: 2,
+                      color: Colors.red.withOpacity(0.3),
+                      style: BorderStyle.solid,
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    columnWidths: {
+                      0: FixedColumnWidth(150),
+                      1: FixedColumnWidth(200),
+                      2: FixedColumnWidth(200),
+                    },
+                    children: [
+                      TableRow(
+                        children: [
+                          TableCell(
+                            child: Padding(
+                              padding: const EdgeInsets.all(8),
+                              child: Text('ID'),
+                            ),
+                          ),
+                          TableCell(
+                            child: Padding(
+                              padding: const EdgeInsets.all(8),
+                              child: Text('title'),
+                            ),
+                          ),
+                          TableCell(
+                            child: Padding(
+                              padding: const EdgeInsets.all(8),
+                              child: Text('update-delete'),
                             ),
                           ),
                         ],
-                      );
-                    }).toList(),
+                      ),
+                      ...data1.map<TableRow>((doc) {
+                        var data = doc.data() as Map<String, dynamic>;
+                        var id = doc.id;
+                        return TableRow(
+                          children: [
+                            TableCell(
+                              child: Padding(
+                                padding: const EdgeInsets.all(8),
+                                child: Text('$id'),
+                              ),
+                            ),
+                            TableCell(
+                              child: Padding(
+                                padding: const EdgeInsets.all(8),
+                                child: Text('${data['tiltle']}'),
+                              ),
+                            ),
+                            TableCell(
+                              child: Padding(
+                                padding: const EdgeInsets.all(8),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    IconButton(
+                                      onPressed: () {
+                                        controller.text = data['tiltle'];
+                                        showDialog(
+                                          context: context,
+                                          builder: (context) {
+                                            return AlertDialog(
+                                              title: Text('update'),
+                                              content: TextField(
+                                                controller: controller,
+                                                decoration: InputDecoration(
+                                                  hintText: 'tan',
+                                                  labelText: 'tan hi',
+                                                  border: OutlineInputBorder(),
+                                                ),
+                                              ),
+                                              actions: [
+                                                TextButton(
+                                                  onPressed: () {
+                                                    update(id, controller.text);
+                                                    Navigator.pop(context);
+                                                  },
+                                                  child: Text('save'),
+                                                ),
+                                                TextButton(
+                                                  onPressed: () =>
+                                                      Navigator.pop(context),
+                                                  child: Text('cancel'),
+                                                ),
+                                              ],
+                                            );
+                                          },
+                                        );
+                                      },
+                                      icon: Icon(Icons.edit),
+                                    ),
+                                    IconButton(
+                                      onPressed: () => delete(id),
+                                      icon: Icon(Icons.delete),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
+                        );
+                      }).toList(),
+                    ],
                   ),
                 );
               },
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: TextField(
-              controller: controller,
-              decoration: InputDecoration(
-                labelText: 'Enter Title',
-                hintText: 'Here comes the title',
-                border: OutlineInputBorder(),
-              ),
-            ),
-          ),
-          ElevatedButton(
-            onPressed: () {
-              var tan = controller.text;
-              controller.clear();
-              add(tan);
-            },
-            child: Center(child: Text('Save')),
           ),
         ],
       ),
