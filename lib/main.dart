@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
@@ -23,10 +24,19 @@ import 'addlistbase.dart';
 import 'add_update_clrea.dart';
 import 'table.dart';
 import 'random.dart';
+import 'canvar.dart';
+import 'animation_canvar.dart';
+import 'ontap2.dart';
+import 'ontap_api_table_firebase.dart';
 
 void main() async {
+  // WidgetsFlutterBinding.ensureInitialized();
+  // await Firebase.initializeApp();
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  // FirebaseFirestore.instance.settings = Settings(
+  //   persistenceEnabled: true,
+  // ); //bật chế độ lưu cục bộ khi không có wifi .
   runApp(MyApp());
 }
 
@@ -36,8 +46,12 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       theme: ThemeData(primarySwatch: Colors.purple),
       debugShowCheckedModeBanner: false,
-      initialRoute: 'random',
+      initialRoute: 'ontap3',
       routes: {
+        'ontap3': (context) => ontap3(),
+        'ontap2': (context) => ontap2(),
+        'animation_canvar': (context) => RotatingCircle(),
+        'canvar': (context) => canvar(),
         'random': (context) => Randomwidget(),
         'them': (context) => them(),
         'themxoasua': (context) => themxoasua(),

@@ -30,7 +30,7 @@ class animatedState extends State<AnimatedController>
     ).animate(CurvedAnimation(parent: controller, curve: Curves.easeInOut));
     sizeAnimation = Tween<double>(
       begin: 0,
-      end: 50,
+      end: 100,
     ).animate(CurvedAnimation(parent: controller, curve: Curves.easeInOut));
     colorAnimation = ColorTween(
       begin: Colors.green.withOpacity(0.3),
@@ -63,28 +63,10 @@ class animatedState extends State<AnimatedController>
                     width: sizeAnimation
                         .value, // Thay đổi kích thước theo animation
                     height: sizeAnimation.value,
+
                     decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        colors: [
-                          colorAnimation.value ??
-                              const Color.fromARGB(
-                                255,
-                                216,
-                                246,
-                                224,
-                              ).withOpacity(0.3),
-                          Colors.green.withOpacity(0.3), // Màu thứ 2
-                          const Color.fromARGB(
-                            255,
-                            86,
-                            10,
-                            186,
-                          ).withOpacity(0.3),
-                        ],
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                      ),
-                      borderRadius: BorderRadius.circular(50), // Giữ hình tròn
+                      color: colorAnimation.value,
+                      borderRadius: BorderRadius.circular(50),
                     ),
                   ),
                 );
