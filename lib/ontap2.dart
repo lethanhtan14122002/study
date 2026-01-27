@@ -1,4 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
+import 'dart:convert';
 
 class ontap2 extends StatefulWidget {
   @override
@@ -16,6 +19,36 @@ class ontap2State extends State<ontap2> with TickerProviderStateMixin {
   //textfield
   TextEditingController c1 = TextEditingController();
   TextEditingController c2 = TextEditingController();
+  // show password
+  bool obscure = true;
+  // lấy dữ liệu
+  final FirebaseFirestore fire = FirebaseFirestore.instance;
+  // bam
+  String hashpassword(String password) {
+    var bytes = utf8.encode(password);
+    var pass = sha256.convert(bytes);
+    return pass.toString();
+  }
+
+  Future<void> check(String name, password) async {
+    try {
+      if (name == null || password == null) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('vui lòng điền tài khoản hoặc mật khẩu!')),
+        );
+      } else {
+        final hashpass = await hashpassword(password);
+        QuerySnapshot snapshot = await fire
+            .collection('register')
+            .where('name', isEqualTo: name)
+            .get();
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('lỗi : $e')));
+    }
+  }
 
   void load() {
     controller = AnimationController(
@@ -177,6 +210,8 @@ class ontap2State extends State<ontap2> with TickerProviderStateMixin {
 
                               child: SingleChildScrollView(
                                 child: TextField(
+                                  obscuringCharacter: '😅',
+                                  obscureText: obscure,
                                   controller: c2,
                                   decoration: InputDecoration(
                                     hintText: 'Nhập mật khẩu vào đây ...',
@@ -190,6 +225,18 @@ class ontap2State extends State<ontap2> with TickerProviderStateMixin {
                                       ),
                                     ),
 
+                                    suffixIcon: IconButton(
+                                      onPressed: () {
+                                        setState(() {
+                                          obscure = !obscure;
+                                        });
+                                      },
+                                      icon: Icon(
+                                        obscure
+                                            ? Icons.visibility_off
+                                            : Icons.visibility,
+                                      ),
+                                    ),
                                     focusedBorder: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(30),
                                       borderSide: BorderSide(
@@ -198,6 +245,7 @@ class ontap2State extends State<ontap2> with TickerProviderStateMixin {
                                         style: BorderStyle.solid,
                                       ),
                                     ),
+
                                     filled: true,
                                     fillColor: Colors.white.withOpacity(0.5),
 
@@ -221,7 +269,10 @@ class ontap2State extends State<ontap2> with TickerProviderStateMixin {
                                   //   borderRadius: BorderRadiusGeometry.circular(30),
                                   // )
                                 ),
-                                onPressed: () {},
+                                onPressed: () {
+                                  var name = c1.text;
+                                  var password = c2.text;
+                                },
                                 child: Container(
                                   // color: Colors.blue.withOpacity(0.5),
                                   child: AnimatedBuilder(

@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:thunail/dangky.dart';
 
 import 'nutbutton.dart';
 import 'gritView.dart';
@@ -28,6 +29,7 @@ import 'canvar.dart';
 import 'animation_canvar.dart';
 import 'ontap2.dart';
 import 'ontap_api_table_firebase.dart';
+import 'dangky.dart';
 
 void main() async {
   // WidgetsFlutterBinding.ensureInitialized();
@@ -46,8 +48,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       theme: ThemeData(primarySwatch: Colors.purple),
       debugShowCheckedModeBanner: false,
-      initialRoute: 'ontap3',
+      initialRoute: 'dangky',
       routes: {
+        'dangky': (context) => dangky(),
         'ontap3': (context) => ontap3(),
         'ontap2': (context) => ontap2(),
         'animation_canvar': (context) => RotatingCircle(),

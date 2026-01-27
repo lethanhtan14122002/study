@@ -24,6 +24,7 @@ dependencies:
   firebase_core: ^2.16.1  # Firebase Core để khởi tạo Firebase
   firebase_storage: ^11.0.0  # Firebase Storage để lưu trữ và tải ảnh
   cloud_firestore: ^4.1.0  # Firestore để lưu trữ thông tin người dùng
+  crypto: ^3.0.7
 
 
 
